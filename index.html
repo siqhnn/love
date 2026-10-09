@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Для моей Любимой 💖</title>
+  
+  <!-- Telegram Web App JS SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  
+  <!-- Canvas Confetti for romantic celebration effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  
+  <!-- Google Fonts: Inter and Great Vibes / Playfair Display for romantic headers -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Marck+Script&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Floating Hearts Background Canvas -->
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- Top Floating Controls Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <span class="album-badge">💖 Для Любимой</span>
+    </div>
+    <div class="header-actions">
+      <!-- Music toggle -->
+      <button id="music-toggle" class="btn-icon" title="Романтическая музыка">
+        <span class="music-icon">🎵</span>
+      </button>
+      <!-- Thumbnails toggle -->
+      <button id="grid-toggle" class="btn-icon" title="Все фотографии">
+        <span>🖼️</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="album-container">
+    
+    <!-- Realistic Book Wrap with Spine & Shadow -->
+    <div class="book-wrapper">
+      <div class="book-spine-effect"></div>
+      <div class="book-ribbon"></div>
+
+      <!-- Album Book Stage -->
+      <div class="book-stage" id="book-stage">
+        
+        <!-- COVER PAGE (Page 0) -->
+        <section class="page page-cover active" id="page-0" data-page="0">
+          <div class="cover-card book-leather-cover">
+            <div class="book-corner top-left"></div>
+            <div class="book-corner top-right"></div>
+            <div class="book-corner bottom-left"></div>
+            <div class="book-corner bottom-right"></div>
+
+            <div class="sparkle-ornament top-left">✨</div>
+            <div class="sparkle-ornament top-right">✨</div>
+            
+            <div class="cover-emblem">
+              <div class="glowing-heart">💖</div>
+              <div class="heart-pulse-ring"></div>
+            </div>
+            
+            <h1 class="cover-title">Наш Фотоальбом</h1>
+            <p class="cover-subtitle">Для самой прекрасной и неповторимой — моей Любимой 🌸</p>
+            
+            <div class="cover-divider">
+              <span>✨ 💕 ✨</span>
+            </div>
+            
+            <p class="cover-hint">
+              Я собрал здесь наши самые драгоценные моменты. Перелистывай страницы, как в настоящей книге... А в самом конце тебя ждёт кое-что особенное 💌
+            </p>
+            
+            <button class="btn-primary pulse-btn" id="start-album-btn">
+              <span>Открыть альбом 📖</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- DYNAMIC PHOTO PAGES (1 to 18) will be injected via app.js -->
+
+        <!-- INVITATION PAGE -->
+        <section class="page page-invitation" id="page-invitation">
+          <div class="invitation-card book-paper-page">
+            <div class="book-page-fold-shadow"></div>
+            
+            <div class="envelope-badge">
+              <span class="envelope-icon">💌</span>
+            </div>
+
+            <span class="invitation-tag">Особенное приглашение</span>
+            <h2 class="invitation-title">Свидание в Роблоксе! 💖🎮</h2>
+            
+            <div class="invitation-letter">
+              <p><strong>Моя самая Любимая!</strong></p>
+              <p>
+                Каждое мгновение с тобой — это настоящее счастье. Я безумно сильно тебя люблю и хочу пригласить тебя на наше незабываемое свидание в Roblox! ✨
+              </p>
+              <p>
+                Я подобрал самые классные, уютные и романтичные миры, где мы сможем побыть вдвоём, повеселиться и сделать новые тёплые воспоминания.
+              </p>
+              <p class="letter-callout">
+                Выбери плейсы, куда ты хочешь пойти, и напиши, когда тебе удобно! 🌸
+              </p>
+            </div>
+
+            <!-- Places Selection Grid -->
+            <div class="places-section">
+              <h3 class="section-title">
+                <span>🏰 Выбери романтичные плейсы:</span>
+                <small class="places-counter" id="selected-count-badge">0 выбрано</small>
+              </h3>
+
+              <div class="places-grid" id="places-grid">
+                <!-- Rendered via app.js -->
+              </div>
+            </div>
+
+            <!-- Custom Message & Time -->
+            <div class="invitation-note-section">
+              <label for="date-note" class="note-label">
+                <span>💬 Твоё сообщение или время (например: «Жду в 20:00 💕»):</span>
+              </label>
+              <textarea id="date-note" placeholder="Напиши что угодно, когда тебе удобно или свои пожелания..." rows="3"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="invitation-actions">
+              <button class="btn-submit" id="submit-date-btn">
+                <span class="btn-icon-heart">💖</span>
+                <span class="btn-text">Я согласна! Пойдём на свидание!</span>
+                <span class="btn-icon-sparkle">✨</span>
+              </button>
+            </div>
+
+            <!-- Submitted Success State Card -->
+            <div class="success-overlay" id="success-overlay" style="display: none;">
+              <div class="success-card glassmorphism">
+                <div class="success-icon">🎉💖✨</div>
+                <h3 class="success-title">Урааа! Ты согласилась!</h3>
+                <p class="success-desc">
+                  Твой выбор успешно отправлен Данилу! Он уже счастлив до небес и с нетерпением ждёт нашего свидания! 🥰
+                </p>
+                <div class="success-summary" id="success-summary">
+                  <!-- Filled via JS -->
+                </div>
+                <button class="btn-secondary" id="close-success-btn">
+                  <span>Вернуться к альбому 💕</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation Dock -->
+  <footer class="album-dock" id="album-dock">
+    <button class="dock-btn" id="prev-btn" title="Предыдущая страница">
+      <span>‹</span>
+    </button>
+    
+    <div class="dock-center">
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="page-indicator" id="page-indicator">
+        Обложка
+      </div>
+    </div>
+    
+    <button class="dock-btn" id="next-btn" title="Следующая страница">
+      <span>›</span>
+    </button>
+  </footer>
+
+  <!-- Grid View Overlay (Modal) -->
+  <div class="grid-modal" id="grid-modal">
+    <div class="grid-modal-header">
+      <h3 id="grid-header-title">Все фотографии 📸</h3>
+      <button class="btn-close" id="close-grid-btn">✕</button>
+    </div>
+    <div class="grid-modal-body" id="grid-modal-body">
+      <!-- Populated via JS -->
+    </div>
+  </div>
+
+  <!-- Fullscreen Photo Lightbox Modal -->
+  <div class="lightbox-modal" id="lightbox-modal">
+    <button class="lightbox-close" id="close-lightbox-btn">✕</button>
+    <img id="lightbox-img" src="" alt="Фото">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
